@@ -5,11 +5,21 @@ namespace Tests\Feature;
 use App\Models\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use App\Models\User;
+use Laravel\Sanctum\Sanctum;
+use Override;
 
 class ProductApiTest extends TestCase
 {
     use RefreshDatabase;
 
+    #[Override]
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        Sanctum::actingAs(User::factory()->create());
+    }
     private function payload(array $overrides = []): array
     {
         return array_merge([
